@@ -16,37 +16,39 @@
 
       <form id="wineForm">
         <div class="input-group">
-          <input type="number" placeholder="Fixed Acidity" required>
-          <input type="number" placeholder="Free Sulfur Dioxide" required>
+          <input type="number" name="fixed_acidity" placeholder="Fixed Acidity" required>
+          <input type="number" name="free_sulfur_dioxide" placeholder="Free Sulfur Dioxide" required>
         </div>
 
         <div class="input-group">
-          <input type="number" placeholder="Volatile Acidity" required>
-          <input type="number" placeholder="Total Sulfur Dioxide" required>
+          <input type="number" name="volatile_acidity" placeholder="Volatile Acidity" required>
+          <input type="number" name="total_sulfur_dioxide" placeholder="Total Sulfur Dioxide" required>
         </div>
 
         <div class="input-group">
-          <input type="number" placeholder="Citric Acid" required>
-          <input type="number" placeholder="Density" required>
+          <input type="number" name="citric_acid" placeholder="Citric Acid" required>
+          <input type="number" name="density" placeholder="Density" required>
         </div>
 
         <div class="input-group">
-          <input type="number" placeholder="Residual Sugar" required>
-          <input type="number" placeholder="pH" required>
+          <input type="number" name="residual_sugar" placeholder="Residual Sugar" required>
+          <input type="number" name="ph" placeholder="pH" required>
         </div>
 
         <div class="input-group">
-          <input type="number" placeholder="Alcohol" required>
-          <input type="number" placeholder="Sulphates" required>
+          <input type="number" name="alcohol" placeholder="Alcohol" required>
+          <input type="number" name="sulphates" placeholder="Sulphates" required>
         </div>
 
-        <button type="submit" class="btn">Predict</button>
+        <button type="submit" id = "predictBtn" class="btn">Predict</button>
       </form>
+
+      <p id="result"></p>
     </div>
   </div>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script 
-    
-  </script>
+  <!-- Fixed script tag -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+>

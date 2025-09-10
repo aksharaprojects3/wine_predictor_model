@@ -1,24 +1,34 @@
-document.getElementById("predictBtn").addEventListener("click", async function () {
-    // Collect input values
-    const inputs = document.querySelectorAll("input");
-    let values = [];
-    inputs.forEach(input => values.push(parseFloat(input.value)));
+document.getElementById("wineForm").addEventListener("submit", async function(e) {
+    e.preventDefault(); // prevent page reload
+
+    // Collect values from inputs
+    const fixed_acidity = parseFloat(document.querySelector('input[name="fixed_acidity"]').value);
+    const free_sulfur_dioxide = parseFloat(document.querySelector('input[name="free_sulfur_dioxide"]').value);
+    const volatile_acidity = parseFloat(document.querySelector('input[name="volatile_acidity"]').value);
+    const total_sulfur_dioxide = parseFloat(document.querySelector('input[name="total_sulfur_dioxide"]').value);
+    const citric_acid = parseFloat(document.querySelector('input[name="citric_acid"]').value);
+    const density = parseFloat(document.querySelector('input[name="density"]').value);
+    const residual_sugar = parseFloat(document.querySelector('input[name="residual_sugar"]').value);
+    const ph = parseFloat(document.querySelector('input[name="ph"]').value);
+    const alcohol = parseFloat(document.querySelector('input[name="alcohol"]').value);
+    const sulphates = parseFloat(document.querySelector('input[name="sulphates"]').value);
 
     try {
         // Send data to backend
-        let response = await fetch("https://wine-predictor-2.onrender.com/predict", {
+        const response = await fetch("/predict", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ data: values })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                fixed_acidity, free_sulfur_dioxide, volatile_acidity, total_sulfur_dioxide,
+                citric_acid, density, residual_sugar, ph, alcohol, sulphates
+            })
         });
 
-        // Get prediction
-        let result = await response.json();
-        alert("Predicted Wine Quality: " + result.prediction);
+        const data = await response.json();
+        // Display prediction on page
+        document.getElementById("result").innerText = "Predicted Wine Quality: " + data.prediction;
 
     } catch (error) {
-        alert("Error connecting to server: " + error);
+        document.getElementById("result").innerText = "Error connecting to server: " + error;
     }
 });
