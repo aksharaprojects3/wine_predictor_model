@@ -10,7 +10,7 @@ model = joblib.load("wine_model.pkl")
 # Serve frontend
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index (2).html")
 
 # API route
 @app.route("/predict", methods=["POST"])
