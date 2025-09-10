@@ -1,21 +1,27 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
-import numpy as np
+import numpy as np 
 
 app = Flask(__name__)
+
+# Load your model
 model = joblib.load("wine_model.pkl")
 
-@app.route('/')
+# Serve frontend
+@app.route("/")
 def home():
-    return "Wine Prediction API is running!"
+    return render_template("index.html")
 
-@app.route('/predict', methods=['POST'])
+# API route
+@app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()   # JSON input lo
-    features = np.array(data['features']).reshape(1, -1)  # Features ko reshape karo
-    prediction = model.predict(features)
-    return jsonify({'prediction': prediction.tolist()})
+    data = request.get_json()
+    # Example: change keys to match your HTML form
+    features = [data["feature1"], data["feature2"], data["feature3"]]
+    prediction = model.predict([features])
+    return jsonify({"prediction": prediction[0]})
 
-if __name__ == '_main_':
-    app.run(host='0.0.0.0', port=10000, debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
+
  
