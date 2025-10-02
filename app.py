@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, jsonify, render_template
 import joblib
 
 app = Flask(__name__)
@@ -12,9 +12,9 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.form
+    data = request.get_json()  # <-- important change
 
-    # Features in same order as trained model
+    # Features in the same order as trained model
     features = [
         float(data["fixed_acidity"]),
         float(data["volatile_acidity"]),
@@ -28,10 +28,11 @@ def predict():
         float(data["alcohol"])
     ]
 
-    prediction = model.predict([features])
-    result = "Good Quality Wine" if prediction[0] >= 6 else "Bad Quality Wine"
+    prediction = model.predict([features])[0]
+    result = "Good Quality Wine" if prediction >= 6 else "Bad Quality Wine"
 
-    return render_template("index.html", prediction=result)
+    # Return JSON instead of rendering template
+    return jsonify({"prediction": int(prediction), "result": result})
 
 if __name__ == "__main__":
     app.run(debug=True)
