@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wine Quality Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h1>Wine Quality <br> Prediction</h1>
+      <p class="subtitle">Enter wine chemical properties to check quality prediction</p>
+
+      <form id="wineForm" method="POST" action="/predict">
+        <div class="input-group">
+          <input type="number" name="fixed_acidity" placeholder="Fixed Acidity" step="any" required>
+          <input type="number" name="volatile_acidity" placeholder="Volatile Acidity" step="any" required>
+        </div>
+
+        <div class="input-group">
+          <input type="number" name="citric_acid" placeholder="Citric Acid" step="any" required>
+          <input type="number" name="residual_sugar" placeholder="Residual Sugar" step="any" required>
+        </div>
+
+        <div class="input-group">
+          <input type="number" name="free_sulfur_dioxide" placeholder="Free Sulfur Dioxide" step="any" required>
+          <input type="number" name="total_sulfur_dioxide" placeholder="Total Sulfur Dioxide" step="any" required>
+        </div>
+
+        <div class="input-group">
+          <input type="number" name="density" placeholder="Density" step="any" required>
+          <input type="number" name="pH" placeholder="pH" step="any" required>
+        </div>
+
+        <div class="input-group">
+          <input type="number" name="sulphates" placeholder="Sulphates" step="any" required>
+          <input type="number" name="alcohol" placeholder="Alcohol" step="any" required>
+        </div>
+
+        <button type="submit" class="btn">Predict</button>
+      </form>
+
+      <p id="result">{{ prediction }}</p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

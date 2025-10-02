@@ -1,38 +1,37 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template
 import joblib
 
 app = Flask(__name__)
 
-# Load your model
-model = joblib.load("wine_model.pkl")
+# Load model
+model = joblib.load("wine_quality_model.pkl")
 
 @app.route("/")
 def home():
-    return render_template("index.html")  # your HTML file
+    return render_template("index.html")  # your HTML page
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
+    data = request.form
 
-    # Make sure keys match the JS JSON
+    # Features in same order as trained model
     features = [
-        data["fixed_acidity"],
-        data["free_sulfur_dioxide"],
-        data["volatile_acidity"],
-        data["total_sulfur_dioxide"],
-        data["citric_acid"],
-        data["density"],
-        data["residual_sugar"],
-        data["ph"],
-        data["alcohol"],
-        data["sulphates"]
+        float(data["fixed_acidity"]),
+        float(data["volatile_acidity"]),
+        float(data["citric_acid"]),
+        float(data["residual_sugar"]),
+        float(data["free_sulfur_dioxide"]),
+        float(data["total_sulfur_dioxide"]),
+        float(data["density"]),
+        float(data["pH"]),
+        float(data["sulphates"]),
+        float(data["alcohol"])
     ]
 
-    # Make prediction
     prediction = model.predict([features])
+    result = "Good Quality Wine" if prediction[0] >= 6 else "Bad Quality Wine"
 
-    # Return result as JSON
-    return jsonify({"prediction": float(prediction[0])})
+    return render_template("index.html", prediction=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
